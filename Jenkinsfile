@@ -1,35 +1,48 @@
-  
 pipeline {
-  agent any
-
+  agent none // agent can only be overwritten if the initial value is 'none'
   stages {
 
     stage('Stage 1') {
+      agent any
       steps {
-        timeout(time: 1, unit: 'SECONDS') {
-          waitUntil {
-            script {
-              echo 'This stage will execute again and again until timeout is reached then the stage will fail.'
-              return false
-            }
+        script {
+          echo 'This stage is blocking the executor because of the "agent any"'
+        }
+      }
+    }
+
+    stage('Stage 2') {
+      agent none
+      steps {
+        timeout(time: 1, unit: 'MINUTES') {
+          script {
+            echo 'This stage does not block an executor because of "agent none"'
+            milestone 1
+            inputResponse = input([
+              message           : 'Please confirm.',
+              submitterParameter: 'submitter',
+              parameters        : [
+                [$class: 'BooleanParameterDefinition', defaultValue: true, name: 'param1', description: 'description1'],
+                [$class: 'ChoiceParameterDefinition', choices: 'choice1\nchoice2', name: 'param2', description: 'description2']
+              ]
+            ])
+            milestone 2
+            echo "Input response: ${inputResponse}"
           }
         }
       }
-      post {
-        always { script { echo 'post.stage1.always' } }
-        success { script { echo 'post.stage1.success' } }
-        changed { script { echo 'post.stage1.changed' } }
-        aborted { script { echo 'post.stage1.aborted' } }
-        failure { script { echo 'post.stage1.failure' } }
+    }
+
+    stage('Stage 3') {
+      agent any
+      steps {
+        script {
+          echo 'This stage is blocking the executor because of the "agent any"'
+          sh 'sleep 15'
+        }
       }
     }
-  }
 
-  post {
-    always { script { echo 'post.always' } }
-    success { script { echo 'post.success' } }
-    changed { script { echo 'post.changed' } }
-    aborted { script { echo 'post.aborted' } }
-    failure { script { echo 'post.failure' } }
+
   }
 }
