@@ -1,22 +1,35 @@
+  
 pipeline {
   agent any
+
   stages {
 
     stage('Stage 1') {
       steps {
-        script {
-          echo 'Stage 1'
+        timeout(time: 1, unit: 'SECONDS') {
+          waitUntil {
+            script {
+              echo 'This stage will execute again and again until timeout is reached then the stage will fail.'
+              return false
+            }
+          }
         }
       }
-    }
-
-    stage('Stage 2') {
-      steps {
-        script {
-          echo 'Stage 2'
-        }
+      post {
+        always { script { echo 'post.stage1.always' } }
+        success { script { echo 'post.stage1.success' } }
+        changed { script { echo 'post.stage1.changed' } }
+        aborted { script { echo 'post.stage1.aborted' } }
+        failure { script { echo 'post.stage1.failure' } }
       }
     }
+  }
 
+  post {
+    always { script { echo 'post.always' } }
+    success { script { echo 'post.success' } }
+    changed { script { echo 'post.changed' } }
+    aborted { script { echo 'post.aborted' } }
+    failure { script { echo 'post.failure' } }
   }
 }
