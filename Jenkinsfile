@@ -22,8 +22,7 @@ pipeline {
               message           : 'Bitte Bestätigen',
               submitterParameter: 'submitter',
               parameters        : [
-                [$class: 'ChoiceParameterDefinition', defaultValue: true, name: 'Produktion', description: 'Hiermit werden die Änderungen in die Produktionsumgebung gepushed.'],
-                [$class: 'ChoiceParameterDefinition', defaultValue: true, name: 'Integration', description: 'Hiermit werden die Änderungen in die Integrationsumgebung gepushed.']
+                [$class: 'ChoiceParameterDefinition', choices: 'Produktion\Integration', name: 'Umgebung:', description: 'Code-Änderungen werden in die ausgewählte Umgebung gepushed']
               ]
             ])
             milestone 2
