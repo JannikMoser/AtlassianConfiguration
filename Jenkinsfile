@@ -19,11 +19,11 @@ pipeline {
             echo 'This stage does not block an executor because of "agent none"'
             milestone 1
             inputResponse = input([
-              message           : 'Please confirm.',
+              message           : 'Bitte Bestätigen',
               submitterParameter: 'submitter',
               parameters        : [
-                [$class: 'BooleanParameterDefinition', defaultValue: true, name: 'param1', description: 'description1'],
-                [$class: 'ChoiceParameterDefinition', choices: 'choice1\nchoice2', name: 'param2', description: 'description2']
+                [$class: 'BooleanParameterDefinition', defaultValue: true, name: 'Produktion', description: 'Hiermit werden die Änderungen in die Produktionsumgebung gepushed.'],
+                [$class: 'ChoiceParameterDefinition', choices: 'choice1\nchoice2', name: 'Integration', description: 'Hiermit werden die Änderungen in die Integrationsumgebung gepushed']
               ]
             ])
             milestone 2
