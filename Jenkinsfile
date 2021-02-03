@@ -23,7 +23,7 @@ pipeline {
               submitterParameter: 'submitter',
               parameters        : [
                 [$class: 'ChoiceParameterDefinition', choices: 'Produktion\Integration', name: 'Umgebung:', description: 'Code-Änderungen werden in die ausgewählte Umgebung gepushed']
-              ]
+              
             ])
             milestone 2
             echo "Input response: ${inputResponse}"
