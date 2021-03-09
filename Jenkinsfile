@@ -2,9 +2,17 @@ pipeline {
   agent none // agent can only be overwritten if the initial value is 'none'
   stages {
 
-    stage('Stage 1') {
+    stage('Stage 0') {
       agent any
       steps {
+        parameters {
+  booleanParam defaultValue: false, description: '', name: 'Test-Default Parameter Boolean'
+  string defaultValue: '', description: '', name: 'Test-Default Parameter String', trim: false
+}
+environment {
+  Test = "https://test-jira.baloisenet.com/atlassian/plugins/servlet/scriptrunner/admin/restendpoints"
+  Prod = "https://jira.baloisenet.com/atlassian/plugins/servlet/scriptrunner/admin/restendpoints"
+}
         script {
           echo 'This stage is blocking the executor because of the "agent any"'
         }
