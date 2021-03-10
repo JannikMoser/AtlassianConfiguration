@@ -22,6 +22,17 @@ pipeline {
           }
         }
       }
+  post {
+  aborted {
+    echo 'Der User hat keine Auswahl getroffen --> Pipeline wird erneut gebaut'
+  }
+  failure {
+   echo   'Es gibt einen Fehler in der Pipeline --> Pipeline wird erneut gebaut' 
+  }
+  unsuccessful {
+    echo 'Die Pipeline konnte nicht richtig gebaut werden --> Pipeline wird erneut gebaut'
+  }
+}
     }
 
     stage('Stage 1') {
