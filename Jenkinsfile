@@ -26,12 +26,11 @@ pipeline {
             echo "Input response: ${inputResponse}"
           }
         
-}
         }
       }
     }
 
-    stage('Stage 2') {
+    stage('Stage 1') {
       agent none
       steps {
         timeout(time: 1, unit: 'MINUTES') {
@@ -41,11 +40,22 @@ pipeline {
       }
     }
 
+    stage('Stage 2') {
+      agent any
+      steps {
+        script {
+          echo ''
+          sh 'sleep 15'
+        }
+      }
+    }
+
+
     stage('Stage 3') {
       agent any
       steps {
         script {
-          echo 'This stage is blocking the executor because of the "agent any"'
+          echo ''
           sh 'sleep 15'
         }
       }
