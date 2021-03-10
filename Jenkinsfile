@@ -5,14 +5,12 @@ pipeline {
     stage('Stage 0') {
       agent any
       steps {
-       
-	
           echo 'This stage is blocking the executor because of the "agent any"'
           milestone 1
             inputResponse = input([
-              message           : 'Bitte Bestätigen',
+              message: 'Bitte Bestätigen',
               submitterParameter: 'submitter',
-              parameters        : [
+              parameters: [
                 [$class: 'ChoiceParameterDefinition', choices: 'Produktion\nTestumgebung', name: 'Umgebung:', description: 'Code-Änderungen werden in die ausgewählte Umgebung gepushed']
                 ]
             ])
