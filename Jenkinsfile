@@ -1,26 +1,28 @@
 pipeline {
   agent none 
   stages {
-
+    
     stage('Stage 0') {
-      agent any
+      agent none
       steps {
-          echo 'This stage is blocking the executor because of the "agent any"'
-          milestone 1
+        timeout(time: 1, unit: 'MINUTES') {
+          script {
+            echo 'In dieser Phase kann ausgewählt werden, wohin die Scriptrunner Add-ons deployed werden'
+            milestone 1
             inputResponse = input([
-              message: 'Bitte Bestätigen',
+              message           : 'Bitte bestätigen.',
               submitterParameter: 'submitter',
-              parameters: [
+              parameters        : [
                 [$class: 'ChoiceParameterDefinition', choices: 'Produktion\nTestumgebung', name: 'Umgebung:', description: 'Code-Änderungen werden in die ausgewählte Umgebung gepushed']
-                ]
+                
+              ]
             ])
             milestone 2
             echo "Input response: ${inputResponse}"
-          
-        
+          }
         }
       }
-    
+    }
 
     stage('Stage 1') {
       agent any
