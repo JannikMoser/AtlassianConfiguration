@@ -23,7 +23,7 @@ pipeline {
     
 
     stage('Stage 1') {
-      agent none
+      agent any
       steps {
         timeout(time: 1, unit: 'MINUTES') {
           script {
