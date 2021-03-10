@@ -1,5 +1,5 @@
 pipeline {
-  agent none // agent can only be overwritten if the initial value is 'none'
+  agent none 
   stages {
 
     stage('Stage 0') {
@@ -15,17 +15,7 @@ environment {
 }
         script {
           echo 'This stage is blocking the executor because of the "agent any"'
-        }
-      }
-    }
-
-    stage('Stage 2') {
-      agent none
-      steps {
-        timeout(time: 1, unit: 'MINUTES') {
-          script {
-            echo 'This stage does not block an executor because of "agent none"'
-            milestone 1
+          milestone 1
             inputResponse = input([
               message           : 'Bitte Bestätigen',
               submitterParameter: 'submitter',
@@ -36,6 +26,16 @@ environment {
             milestone 2
             echo "Input response: ${inputResponse}"
           }
+        }
+      }
+    }
+
+    stage('Stage 2') {
+      agent none
+      steps {
+        timeout(time: 1, unit: 'MINUTES') {
+          script {
+            echo 'This stage does not block an executor because of "agent none"'
         }
       }
     }
