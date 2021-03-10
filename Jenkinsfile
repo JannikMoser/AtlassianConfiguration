@@ -31,7 +31,7 @@ pipeline {
         }
       }
     }
-
+    }
     stage('Stage 2') {
       agent any
       steps {
