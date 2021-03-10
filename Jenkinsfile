@@ -24,7 +24,7 @@ pipeline {
             ])
             milestone 2
             echo "Input response: ${inputResponse}"
-          }
+          
         
         }
       }
