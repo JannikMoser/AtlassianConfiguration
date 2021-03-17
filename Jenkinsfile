@@ -3,13 +3,13 @@ pipeline {
   stages {
     
     stage('Stage 0') {
-      parameters {
+      agent none
+      steps {
+        parameters {
       file description: 'GroovyScripts ', name: 'https://test-jira.baloisenet.com/atlassian/plugins/servlet/scriptrunner/admin/restendpoints'
       gitParameter branch: '', branchFilter: '.*', defaultValue: 'origin/master', description: 'Git-Checkout der Groovy Scripts', name: 'GroovyScriptsSC', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_TAG'
       }
 
-      agent none
-      steps {
         timeout(time: 1, unit: 'MINUTES') {
           script {
             echo 'In dieser Phase kann ausgewählt werden, wohin die Scriptrunner Add-ons deployed werden'
