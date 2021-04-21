@@ -1,5 +1,5 @@
 pipeline {
-  agent none 
+  agent any
 
     options {
         disableConcurrentBuilds()
@@ -8,24 +8,27 @@ pipeline {
 
     parameters {
         choice(choices: ['Testumgebung', 'Produktion',], description: 'Umgebung auf welcher die Groovy Skripts deployed werden', name: 'Umgebung')
+        String formUrlencode(Map params) {
+      	params.collect { k,v -> URLEncoder.encode(k, "UTF-8") + "="  + URLEncoder.encode(v, "UTF-8")}.join('&')
+}
         
     }
 
   stages {
     
-
-    stage('Stage 1') {
-      agent any
+    stage('Stage 2 Codeanalyse') {
       steps {
-        timeout(time: 1, unit: 'MINUTES') {
           script {
-            echo 'This stage does not block an executor because of "agent none"'
+            def getXsrfToken(auth, env) {
+	          String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
+	          HttpCookie.parse("Set-Cookie:"+http_head(url, auth)['Set-Cookie'].join(', ')).find{it.name == 'atlassian.xsrf.token'}.value	
+}
+           
         }
-      }
+      
     }
     }
     stage('Stage 2') {
-      agent any
       steps {
         script {
           echo ''
@@ -36,7 +39,6 @@ pipeline {
 
 
     stage('Stage 3') {
-      agent any
       steps {
         script {
           echo ''
