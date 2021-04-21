@@ -34,13 +34,13 @@ pipeline {
         }
 
         fixed {
-            mailTo status: 'SUCCESS', actuator: true, recipients: [], logExtract: true
+            mailTo: 'jannik.moser@baloise.ch', status: 'SUCCESS', actuator: true, recipients: [], logExtract: true
         }
 
         failure {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
             junit allowEmptyResults: true, testResults: '**/target/*-reports/TEST*.xml'
-            mailTo status: 'FAILURE', actuator: true, recipients: [jannik.moser@baloise.ch], logExtract: true
+            mailTo: 'jannik.moser@baloise.ch', status: 'FAILURE', actuator: true, recipients: [], logExtract: true
         }
  }
   }
