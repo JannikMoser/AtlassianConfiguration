@@ -14,8 +14,7 @@ pipeline {
     stage('Stage 2') {
       steps {
         notifyBitBucket state: 'INPROGRESS'
-          script {
-          }
+
       }
     }
   }
@@ -37,6 +36,7 @@ pipeline {
         }
  }
   }
+
 
 
 
