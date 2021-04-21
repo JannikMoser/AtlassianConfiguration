@@ -18,16 +18,9 @@ pipeline {
           }
       }
     }
-    stage('Stage 2') {
-      steps {
+  }
 
-      }
-    }
-
-    stage('Stage 3') {
-      steps {
-      }
-    }
+   
  post {
         success {
             notifyBitBucket state: 'SUCCESSFUL'
@@ -44,6 +37,6 @@ pipeline {
         }
  }
   }
-}
+
 
 
