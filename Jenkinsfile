@@ -14,11 +14,7 @@ pipeline {
     stage('Stage 2') {
       steps {
         notifyBitBucket state: 'INPROGRESS'
-        sh def getXsrfToken(auth, env) 
-    String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
-    HttpCookie.parse("Set-Cookie:"+http_head(url, auth)['Set-Cookie'].join(', ')).find{it.name == 'atlassian.xsrf.token'}.value    
 
-        
       }
     }
   }
