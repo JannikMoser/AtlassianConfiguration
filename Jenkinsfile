@@ -32,11 +32,10 @@ pipeline {
         failure {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
             junit allowEmptyResults: true, testResults: '**/target/*-reports/TEST*.xml'
-            mailTo status: 'FAILURE', actuator: true, recipients: [], logExtract: true
+            mailTo status: 'FAILURE', actuator: true, recipients: ['jannik.moser@baloise.ch'], logExtract: true
         }
  }
   }
-
 
 
 
