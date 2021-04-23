@@ -33,7 +33,7 @@ stage("Send Mail") {
 
   }
 
-def sendDeployMail(version, env,) {
+def sendDeployMail(version, env) {
   if (version == null || version.isEmpty()) {
       error 'Version not provided!'
   }
