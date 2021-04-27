@@ -29,8 +29,8 @@ pipeline {
           http_post(url, auth, payload, 'application/json')
           }
         getXsrfToken(auth, env) {
-    String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
-    HttpCookie.parse('Set-Cookie:' + http_head(url, auth)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
+        String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
+        HttpCookie.parse('Set-Cookie:' + http_head(url, auth)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
       }
     }
@@ -43,13 +43,13 @@ pipeline {
         }
 
         fixed {
-            mailTo status: 'SUCCESS', actuator: true, recipients: ['jannik.moser@baloise.ch'], logExtract: true
+            emailext attachLog: true, body: 'Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
 
         failure {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
             junit allowEmptyResults: true, testResults: '**/target/*-reports/TEST*.xml'
-            mailTo status: 'FAILURE', actuator: true, recipients: ['jannik.moser@baloise.ch'], logExtract: true
+            emailext attachLog: true, body: 'Hallo Jannik! Der Build der Pipeline ist fehlgeschlagen und es gab einen Fehler. Bitte überprüfe die Logfiles', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
  }
 }
