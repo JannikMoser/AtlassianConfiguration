@@ -22,7 +22,7 @@ pipeline {
     stage('Stage 3') {
     steps {
       script {
-        def deployRestEndPoint(name, auth, env = '') {
+          deployRestEndPoint(name, auth, env = '') {
           println "deploying $name to $env"
           String url  = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
           String scriptText = filePath("src/RESTEndpoints/$name").readToString()
