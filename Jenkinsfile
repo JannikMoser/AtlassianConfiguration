@@ -12,14 +12,13 @@ pipeline {
     }
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
   stages {
-    stage('Stage 2') {
+    stage('Stage 1') {
       steps {
         notifyBitBucket state: 'INPROGRESS'
-
       }
     }
     //In dieser Stage, ist der Deploymentschritt der Groovy Skripte definiert
-    stage('Stage 3') {
+    stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
       script {
           deployRestEndPoint(name, auth, env = '') {
@@ -28,6 +27,10 @@ pipeline {
           String scriptText = filePath("src/RESTEndpoints/$name").readToString()
           String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
           http_post(url, auth, payload, 'application/json')
+          }
+        getXsrfToken(auth, env) {
+    String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
+    HttpCookie.parse('Set-Cookie:' + http_head(url, auth)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
       }
     }
