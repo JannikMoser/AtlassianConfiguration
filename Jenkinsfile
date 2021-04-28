@@ -43,8 +43,8 @@ pipeline {
         }
 
         fixed {
-            emailext body: 'Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed
-            Mit freundlichen Grüssen', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
+            emailext body: '''Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed
+            Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
 
         failure {
@@ -56,5 +56,6 @@ pipeline {
         }
  }
 }
+
 
 
