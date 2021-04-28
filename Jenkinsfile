@@ -51,11 +51,12 @@ pipeline {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
             junit allowEmptyResults: true, testResults: '**/target/*-reports/TEST*.xml'
             emailext attachLog: true, body: '''Hallo Jannik! Der Build der Pipeline ist fehlgeschlagen.
-            Bitte überprüfe die Logfiles, welche sich im Anhang der Mail befinden.
-            Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
+      Bitte überprüfe die Logfiles, welche sich im Anhang der Mail befinden.
+      Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
  }
 }
+
 
 
 
