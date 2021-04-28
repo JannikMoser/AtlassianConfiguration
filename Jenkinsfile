@@ -9,11 +9,9 @@ pipeline {
     //Bei den Parametern, habe ich mich für den choice-Parameter entschieden, weil ich mehrere Umgebungen zur Auswahl habe
     parameters {
         choice(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
-        string(name: 'name', defaultValue: 'Name des REST-Endpoints', description: '')
-}
+        string(name: 'name', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+    }
 
-
-    
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
   stages {
     stage('Stage 1') {
@@ -25,8 +23,8 @@ pipeline {
     stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
       script {
-          deployRestEndPoint(name, env = '') {
-          println "deploying ${params.name} to $env"
+          deployRestEndPoint(params.name, params.env = '') {
+          println "deploying $name to $env"
           String url  = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
           String scriptText = filePath("src/RESTEndpoints/$name").readToString()
           String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
@@ -60,8 +58,6 @@ pipeline {
         }
  }
 }
-
-
 
 
 
