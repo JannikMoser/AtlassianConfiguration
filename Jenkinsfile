@@ -9,6 +9,11 @@ pipeline {
     //Bei den Parametern, habe ich mich für den choice-Parameter entschieden, weil ich mehrere Umgebungen zur Auswahl habe
     parameters {
         choice(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
+        parameters {
+        string defaultValue: '$name', description: '', name: 'NameRESTEndpoints', trim: false
+}
+
+
     }
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
   stages {
@@ -56,7 +61,6 @@ pipeline {
         }
  }
 }
-
 
 
 
