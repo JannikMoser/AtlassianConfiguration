@@ -13,7 +13,7 @@ pipeline {
 }
 
 
-    }
+    
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
   stages {
     stage('Stage 1') {
@@ -59,7 +59,7 @@ pipeline {
       Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
  }
-}
+} 
 
 
 
