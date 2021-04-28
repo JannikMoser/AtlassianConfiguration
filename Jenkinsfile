@@ -9,7 +9,7 @@ pipeline {
     //Bei den Parametern, habe ich mich für den choice-Parameter entschieden, weil ich mehrere Umgebungen zur Auswahl habe
     parameters {
         choice(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
-        string defaultValue: 'name', description: '', name: 'NameRESTEndpoints', trim: false
+        string defaultValue: 'Name von REST-Endpoint', description: '', name: '$name', trim: false
 }
 
 
@@ -60,6 +60,7 @@ pipeline {
         }
  }
 }
+
 
 
 
