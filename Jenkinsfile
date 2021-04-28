@@ -43,14 +43,18 @@ pipeline {
         }
 
         fixed {
-            emailext attachLog: true, body: 'Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
+            emailext body: 'Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed
+            Mit freundlichen Grüssen', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
 
         failure {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
             junit allowEmptyResults: true, testResults: '**/target/*-reports/TEST*.xml'
-            emailext attachLog: true, body: 'Hallo Jannik! Der Build der Pipeline ist fehlgeschlagen und es gab einen Fehler. Bitte überprüfe die Logfiles', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
+            emailext attachLog: true, body: '''Hallo Jannik! Der Build der Pipeline ist fehlgeschlagen.
+            Bitte überprüfe die Logfiles, welche sich im Anhang der Mail befinden.
+            Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
  }
 }
+
 
