@@ -22,7 +22,7 @@ pipeline {
     //In dieser Stage,wird der Deployment-Schritt aufgerufen 
     stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
-      deployRestEndPoint (params.name, params.env)
+      deployRestEndPoint (params.name, env '')
     }
     }
   }
@@ -65,6 +65,7 @@ def getXsrfToken(env) {
         String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
         HttpCookie.parse('Set-Cookie:' + http_head(url)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
+
 
 
 
