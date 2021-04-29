@@ -10,7 +10,7 @@ pipeline {
 
     //Bei den Parametern, habe ich mich für den choice-Parameter entschieden, weil ich mehrere Umgebungen zur Auswahl habe
     parameters {
-        choice(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
+        string(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
         string(name: 'name', defaultValue: 'Name von RESTEndpoint', description: '')
     }
 
@@ -68,5 +68,7 @@ def getXsrfToken(env) {
         String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
         HttpCookie.parse('Set-Cookie:' + http_head(url)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
+
+
 
 
