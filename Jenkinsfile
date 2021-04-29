@@ -62,8 +62,9 @@ pipeline {
 def deployRestEndPoint(name, env = '') {
           println "deploying $name to $env"
           String url  = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
-          String scriptText = filePath("src/RESTEndpoints/$name")
+          String scriptText = filePath("src/RESTEndpoints/$name").readToString
           println scriptText
+          println url
           String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
           http_post(url, payload)
           }
@@ -71,8 +72,6 @@ def getXsrfToken(env) {
         String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
         HttpCookie.parse('Set-Cookie:' + http_head(url)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
-
-
 
 
 
