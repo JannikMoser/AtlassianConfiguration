@@ -64,8 +64,7 @@ def deployRestEndPoint(name, env = '') {
           String url  = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
           String scriptText = filePath("src/RESTEndpoints/$name")
           String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
-          echo 'ServerResponse
-          ' + http_post(url, payload)
+          echo 'ServerResponse ' + http_post(url, payload)
           }
           
 def getXsrfToken(env) {
