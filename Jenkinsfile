@@ -1,3 +1,7 @@
+library identifier: 'WorkflowLibsShared@master', retriever: modernSCM(
+	[$class: 'GitSCMSource', remote: 'https://git.balgroupit.com/CICD-DevOps/WorkflowLibsShared.git']
+  )
+
 import groovy.json.StringEscapeUtils
 pipeline {
   agent any
@@ -61,12 +65,13 @@ def deployRestEndPoint(name, env = '') {
           String scriptText = filePath("src/RESTEndpoints/$name")
           println scriptText
           String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
-          http_post(url, payload, 'application/json')
+          http_post(url, payload)
           }
 def getXsrfToken(env) {
         String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
         HttpCookie.parse('Set-Cookie:' + http_head(url)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
+
 
 
 
