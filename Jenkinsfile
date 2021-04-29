@@ -60,12 +60,13 @@ pipeline {
 
 // Mehtode um die RESTEndpoints zu deployen
 def deployRestEndPoint(name, env = '') {
-          println "deploying $name to $env"
-          String url  = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
-          String scriptText = filePath("src/RESTEndpoints/$name")
-          String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
-          echo 'ServerResponse ' + http_post(url, payload)
-          }
+println "deploying $name to $env"
+String url = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
+String scriptText = filePath("src/RESTEndpoints/$name").readToString()
+String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
+String auth = "admin_b037982:IPArocks"
+echo 'ServerResponse ' + http_post(url, auth, payload, 'application/json')
+}
           
 def getXsrfToken(env) {
         String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
