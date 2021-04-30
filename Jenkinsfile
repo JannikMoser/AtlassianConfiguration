@@ -57,8 +57,7 @@ pipeline {
  }
 }
 
-String env ="Testumgebung"
-['Testumgebung':'test-', 'Produktionsumgebung':''] [env]
+
 
 // Mehtode um die RESTEndpoints zu deployen
 def deployRestEndPoint(name, env = '') {
