@@ -14,7 +14,7 @@ pipeline {
     //Bei den Parametern, habe ich mich für den choice-Parameter entschieden, weil ich mehrere Umgebungen zur Auswahl habe
     parameters {
         choice(description: '', name: 'env', choices: 'Testumgebung\nProduktionsumgebung')
-        string(name: 'name', defaultValue: 'Name von RESTEndpoint', description: '')
+        string(name: 'name', defaultValue: 'Name von RESTEndpoint', description: 'Die Namen der verschiedenen RESTEndpoints können im Github-Repository des Jenkinsfile eingesehen werden.')
     }
 
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
@@ -27,7 +27,7 @@ pipeline {
     //In dieser Stage,wird der Deployment-Schritt aufgerufen 
     stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
-      deployRestEndPoint (params.name, 'test-')
+      deployRestEndPoint (params.name, '')
     }
     }
   }
@@ -41,7 +41,8 @@ pipeline {
         }
 //Benachrichtigung wenn die Pipeline ohne Fehler durchläuft 
         fixed {
-            emailext body: '''Hallo Jannik! Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed
+            emailext body: '''Hallo Pipeline-Administrator
+            Der Build der Pipeline ist vollständig durchgelaufen und die RESTEndpoints wurden deployed
             Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
 //Benachrichtigung wenn die Pipeline nicht ohne Fehler durchläuft
@@ -50,9 +51,10 @@ pipeline {
             notifyBitBucket state: 'FAILED', description: 'Der Pipelinebuild ist fehlgeschlagen'
 //Speichert einen JUnit Report unter als TEST.xml ab
             junit allowEmptyResults: true, testResults: '**/src/*reports/TEST*.xml'
-            emailext attachLog: true, body: '''Hallo Jannik! Der Build der Pipeline ist fehlgeschlagen.
-      Bitte überprüfe die Logfiles, welche sich im Anhang der Mail befinden.
-      Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
+            emailext attachLog: true, body: '''Hallo Pipeline-Administrator
+            Der Build der Pipeline ist fehlgeschlagen.
+            Bitte überprüfe die Logfiles, welche sich im Anhang der Mail befinden.
+            Mit freundlichen Grüssen''', subject: 'Automatisierte Verteilung von Atlassian Tool Updates Jira', to: 'jannik.moser@baloise.ch'
         }
  }
 }
@@ -62,19 +64,17 @@ pipeline {
 // Mehtode um die RESTEndpoints zu deployen
 def deployRestEndPoint(name, env = '') {
 println "deploying $name to $env"
-String url = "https://${env}jira.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
+String url = "https://${env}confluence.baloisenet.com/atlassian/rest/scriptrunner/latest/custom/customadmin/com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"
 String scriptText = filePath("src/RESTEndpoints/$name").readToString()
 String payload = """{"FIELD_INLINE_SCRIPT":"${StringEscapeUtils.escapeJavaScript(scriptText)}","canned-script":"com.onresolve.scriptrunner.canned.common.rest.CustomRestEndpoint"}"""
-String auth = "admin_b037982:IPArocks"
+String auth = "admin_b037982:B037982"
 echo 'ServerResponse ' + http_post(url, auth, payload, 'application/json')
 }
           
 def getXsrfToken(env) {
-        String url = "http://${env}jira.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
+        String url = "http://${env}confluence.baloisenet.com:8080/atlassian/secure/admin/EditAnnouncementBanner!default.jspa"
         HttpCookie.parse('Set-Cookie:' + http_head(url)['Set-Cookie'].join(', ')).find { it.name == 'atlassian.xsrf.token' }.value
         }
-
-
 
 
 
