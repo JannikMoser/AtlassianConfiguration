@@ -20,13 +20,14 @@ pipeline {
   //In dieser Stage, ist konfiguriert, wann und wie die Pipeline getriggered wird
   stages {
     stage('Stage 1') {
-      steps {
+      steps {      
         notifyBitBucket state: 'INPROGRESS'
       }
     }
     //In dieser Stage,wird der Deployment-Schritt aufgerufen 
     stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
+	    script {
     if ( params.env == 'Produktionsumgebung' ) {
       deployRestEndPoint (params.name, '')
     }
@@ -36,7 +37,7 @@ pipeline {
     }
     }
   }
-
+  }
   
 //Postmethode in welcher die verschiedenen Szenarien der Pipeline definiert sind
  post {
