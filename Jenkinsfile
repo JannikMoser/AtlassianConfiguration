@@ -30,7 +30,7 @@ pipeline {
     if  (env == 'Testumgebung') {
       deployRestEndPoint (params.name, 'test-')
     }
-    else {
+    if (env == 'Produktionsumgebung' {
       deployRestEndPoint (params.name, '')
     }
     }
