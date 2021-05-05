@@ -30,7 +30,7 @@ pipeline {
     if  (params.choice == 'Testumgebung') {
       deployRestEndPoint (params.name, 'test-')
     }
-    if (params.choice == 'Produktionsumgebung' {
+    else  {
       deployRestEndPoint (params.name, '')
     }
     }
