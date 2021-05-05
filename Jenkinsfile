@@ -27,10 +27,10 @@ pipeline {
     //In dieser Stage,wird der Deployment-Schritt aufgerufen 
     stage('Stage 2 - Deployment Groovy Skripts') {
     steps {
-    if  (params.env == 'Testumgebung') {
+    if  (params.choice == 'Testumgebung') {
       deployRestEndPoint (params.name, 'test-')
     }
-    if (params.env == 'Produktionsumgebung' {
+    if (params.choice == 'Produktionsumgebung' {
       deployRestEndPoint (params.name, '')
     }
     }
