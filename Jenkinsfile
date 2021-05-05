@@ -34,7 +34,7 @@ pipeline {
       deployRestEndPoint (params.name, 'test-')
     }
     }
-    
+    }
   }
 
   
@@ -65,7 +65,7 @@ Mit freundlichen Grüssen
         }
  }
 }
-}	
+	
 // Mehtode um die RESTEndpoints zu deployen
 def deployRestEndPoint(name, env = '') {
 println "deploying $name to $env"
